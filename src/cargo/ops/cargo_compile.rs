@@ -132,6 +132,8 @@ pub fn resolve_dependencies<'a>(root_package: &Package,
             try!(ops::resolve_with_previous(&mut registry, root_package,
                                             method, Some(&resolve), None));
 
+    try!(ops::warn_if_multiple_versions(&resolved_with_overrides, &config));
+
     let packages = ops::get_resolved_packages(&resolved_with_overrides,
                                               registry);
 

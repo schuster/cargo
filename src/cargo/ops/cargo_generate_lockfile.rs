@@ -23,6 +23,7 @@ pub fn generate_lockfile(manifest_path: &Path, config: &Config)
     let resolve = try!(ops::resolve_with_previous(&mut registry, &package,
                                                   Method::Everything,
                                                   None, None));
+    try!(ops::warn_if_multiple_versions(&resolve, config));
     try!(ops::write_pkg_lockfile(&package, &resolve, config));
     Ok(())
 }
@@ -104,6 +105,7 @@ pub fn update_lockfile(manifest_path: &Path,
         }
     }
 
+    try!(ops::warn_if_multiple_versions(&resolve, opts.config));
     try!(ops::write_pkg_lockfile(&package, &resolve, opts.config));
     return Ok(());
 
