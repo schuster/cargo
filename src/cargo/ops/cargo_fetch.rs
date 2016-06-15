@@ -12,7 +12,6 @@ pub fn fetch<'a>(manifest_path: &Path,
     let package = try!(Package::for_path(manifest_path, config));
     let mut registry = PackageRegistry::new(config);
     let resolve = try!(ops::resolve_pkg(&mut registry, &package, config));
-    try!(ops::warn_if_multiple_versions(&resolve, config));
     let packages = get_resolved_packages(&resolve, registry);
     for id in resolve.iter() {
         try!(packages.get(id));
